@@ -42,7 +42,16 @@ def main():
     
     with col1:
         st.subheader("Enter News Article")
-        text = st.text_area("Paste the article text here:", height=300, key="input_text")
+        # Initialize session state for input_text if it doesn't exist
+        if 'input_text' not in st.session_state:
+            st.session_state.input_text = ""
+            
+        text = st.text_area(
+            "Paste the article text here:",
+            value=st.session_state.input_text,
+            height=300,
+            key="input_text"
+        )
         
         if st.button("Analyze Article"):
             if text.strip():
