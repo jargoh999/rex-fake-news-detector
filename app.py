@@ -26,6 +26,9 @@ def predict(text, model, tokenizer):
     confidence = torch.max(probabilities).item()
     return "Reliable" if predicted_class == 1 else "Unreliable", confidence
 
+def update_text(example_text):
+    st.session_state.input_text = example_text
+
 def main():
     st.title("🔍 Advanced Fake News Detector")
     st.markdown("""
@@ -78,9 +81,12 @@ def main():
         ]
         
         for title, example in examples:
-            if st.button(title, key=title):
-                st.session_state.input_text = example
-                st.rerun()
+            st.button(
+                title, 
+                key=title,
+                on_click=update_text,
+                args=(example,)
+            )
         
         st.markdown("""
         ### About
